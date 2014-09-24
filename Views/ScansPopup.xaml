@@ -1,0 +1,22 @@
+﻿<Window x:Class="FixEverything.ScansPopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Choose a Scan" Height="508" Width="469"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="0,0,-8,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="411*"/>
+            <ColumnDefinition Width="43*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0,0" MappingMode="RelativeToBoundingBox" StartPoint="0.8,0.8">
+                <GradientStop Color="#FF0E65BF" Offset="0"/>
+                <GradientStop Color="#FF4C8CCF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <TextBlock HorizontalAlignment="Center" Height="47" Margin="54,10,11,0" TextWrapping="Wrap" Text="Choose a Scan" VerticalAlignment="Top" Width="360" FontSize="28" Foreground="White" TextAlignment="Center"/>
+        <Button Content="DISM Scans" x:Name="btnDism" HorizontalAlignment="Left" Margin="46,82,0,0" VerticalAlignment="Top" Width="360" Height="90" Background="{x:Null}" BorderBrush="White" Foreground="#FFFDFDFD" FontSize="26" Click="btnDism_Click"/>
+        <Button Content="SFC Scan" x:Name="btnSfc" HorizontalAlignment="Left" Margin="46,212,0,0" VerticalAlignment="Top" Width="360" Height="90" Background="{x:Null}" BorderBrush="White" Foreground="#FFFDFDFD" FontSize="26" Click="btnSfc_Click"/>
+        <Button Content="Chkdsk (check disk)" x:Name="btnChkdsk" HorizontalAlignment="Left" Margin="46,344,0,0" VerticalAlignment="Top" Width="360" Height="90" Background="{x:Null}" BorderBrush="White" Foreground="#FFFDFDFD" FontSize="26" Click="btnChkdsk_Click"/>
+    </Grid>
+</Window>

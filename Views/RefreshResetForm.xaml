@@ -1,0 +1,16 @@
+﻿<Window x:Class="FixEverything.RefreshResetForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Refresh or Reset?" Height="307" Width="473"
+        WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0,0" MappingMode="RelativeToBoundingBox" StartPoint="0.8,0.8">
+                <GradientStop Color="#FF0E65BF" Offset="0"/>
+                <GradientStop Color="#FF4C8CCF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Button Content="Refresh" x:Name="btnRefresh" HorizontalAlignment="Left" Margin="48,28,0,0" VerticalAlignment="Top" Width="360" Height="90" Background="{x:Null}" BorderBrush="White" Foreground="#FFFDFDFD" FontSize="26" Click="btnRefresh_Click"/>
+        <Button Content="Reset" x:Name="btnReset" HorizontalAlignment="Left" Margin="48,154,0,0" VerticalAlignment="Top" Width="360" Height="90" Background="{x:Null}" BorderBrush="White" Foreground="#FFFDFDFD" FontSize="26" Click="btnReset_Click"/>
+    </Grid>
+</Window>

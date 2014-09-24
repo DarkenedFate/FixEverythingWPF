@@ -1,0 +1,22 @@
+﻿<Window x:Class="FixEverything.DownloadForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Downloading" Height="327" Width="701"
+        WindowStartupLocation="CenterOwner"
+        Loaded="Window_Loaded">
+    <Window.Effect>
+        <DropShadowEffect/>
+    </Window.Effect>
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0,0" MappingMode="RelativeToBoundingBox" StartPoint="0.8,0.8">
+                <GradientStop Color="#FF0E65BF" Offset="0"/>
+                <GradientStop Color="#FF4C8CCF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Label x:Name="lblTitle" Content="Downloading so-and-so... 100%" HorizontalAlignment="Left" Height="54" Margin="50,20,0,0" VerticalAlignment="Top" Width="582" FontSize="28" Foreground="White"/>
+        <ProgressBar x:Name="downloadProgress" HorizontalAlignment="Left" Height="50" Margin="50,92,0,0" VerticalAlignment="Top" Width="582"/>
+        <Label x:Name="lblProgress" Content="Downloading so-and-so... 100%" HorizontalAlignment="Left" Height="40" Margin="50,168,0,0" VerticalAlignment="Top" Width="582" FontSize="20" Foreground="White"/>
+        <Button Content="Cancel" x:Name="btnCancel" HorizontalAlignment="Center" Margin="253,213,236,0" VerticalAlignment="Top" Width="204" Height="65" Background="{x:Null}" BorderBrush="White" Foreground="#FFFDFDFD" FontSize="26" Uid="btnWinUpdate" Click="btnCancel_Click" />
+    </Grid>
+</Window>
