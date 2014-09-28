@@ -80,123 +80,39 @@ namespace FixEverything.ViewModels
 
         public void UninstallScanners()
         {
-            var appSettings = ConfigurationManager.AppSettings;
+            List<String> scannerUninstallPaths = new List<String>();
+            int timesNotFound = 0;
 
-            // Should actually be called something like allSettingKeysThatAreTrue
-            var installedPrograms = new List<String>();
-            var wantedPrograms = new List<String>();
+            scannerUninstallPaths.Add(@"C:\Program Files (x86)\Malwarebytes Anti-Malware\unins000.exe");
+            scannerUninstallPaths.Add(@"C:\Program Files (x86)\Malwarebytes' Anti-Malware\unins000.exe");
+            scannerUninstallPaths.Add(@"C:\Program Files\SUPERAntiSpyware\Uninstall.exe");
+            scannerUninstallPaths.Add(@"C:\Program Files (x86)\IObit\IObit Uninstaller\UninstallDisplay.exe");
+            scannerUninstallPaths.Add(@"C:\Program Files\CCleaner\uninst.exe");
+            scannerUninstallPaths.Add(@"C:\Program Files (x86)\CCleaner\uninst.exe");
+            scannerUninstallPaths.Add(@"C:\Program Files\VS Revo Group\Revo Uninstaller Pro\unins000.exe");
 
-            wantedPrograms.Add("btnMalwarebytes");
-            wantedPrograms.Add("btnMalwarebytesOld");
-            wantedPrograms.Add("btnIobit");
-            wantedPrograms.Add("btnSuper");
-            wantedPrograms.Add("btnCcleaner");
-            wantedPrograms.Add("btnRevo");
-
-            if (appSettings.Count != 0)
+            foreach (String path in scannerUninstallPaths)
             {
-                foreach (var key in appSettings.AllKeys)
+                if (File.Exists(path))
                 {
-                    if (appSettings[key] == "true")
+                    if (path.Contains("IObit"))
                     {
-                        installedPrograms.Add(key);
+                        Process.Start(path, "uninstall_start").WaitForExit();
+                    }
+                    else
+                    {
+                        Process.Start(path).WaitForExit();
                     }
                 }
-
-                // To make sure we're only counting malware scanners & cleanup tools
-                var unwantedPrograms = installedPrograms.Except(wantedPrograms).ToList();
-                installedPrograms = installedPrograms.Except(unwantedPrograms).ToList();
-
-                if (installedPrograms.Count < 1)
-                {   
-                    MessageBox.Show("No malware scanners or cleanup tools were found.", "There's nothing here!", MessageBoxButton.OK);
-                    return;
-                }
-
-                foreach (var key in installedPrograms)
+                else
                 {
-                    switch (key)
-                    {
-                        case "btnMalwarebytes":
-
-                            String mbamPath = @"C:\Program Files (x86)\Malwarebytes Anti-Malware\unins000.exe";
-                            if (!File.Exists(mbamPath))
-                            {
-                                Utils.AddUpdateAppSettings(key, "false");
-                                continue;
-                            }
-
-                            Process.Start(mbamPath).WaitForExit();
-                            Utils.AddUpdateAppSettings(key, "false");
-                            continue;
-
-                        case "btnMalwarebytesOld":
-
-                            String mbamOldPath = @"C:\Program Files (x86)\Malwarebytes' Anti-Malware\unins000.exe";
-                            if (!File.Exists(mbamOldPath))
-                            {
-                                Utils.AddUpdateAppSettings(key, "false");
-                                continue;
-                            }
-
-                            Process.Start(mbamOldPath).WaitForExit();
-                            Utils.AddUpdateAppSettings(key, "false");
-                            continue;
-
-                        case "btnSuper":
-
-                            String superPath = @"C:\Program Files\SUPERAntiSpyware\Uninstall.exe";
-                            if (!File.Exists(superPath))
-                            {
-                                Utils.AddUpdateAppSettings(key, "false");
-                                continue;
-                            }
-
-                            Process.Start(superPath).WaitForExit();
-                            Utils.AddUpdateAppSettings(key, "false");
-                            continue;
-
-                        case "btnIobit":
-
-                            String iobitPath = @"C:\Program Files (x86)\IObit\IObit Uninstaller\UninstallDisplay.exe";
-                            if (!File.Exists(iobitPath))
-                            {
-                                Utils.AddUpdateAppSettings(key, "false");
-                                continue;
-                            }
-
-                            Process.Start(iobitPath, "uninstall_start").WaitForExit();
-                            Utils.AddUpdateAppSettings(key, "false");
-                            continue;
-
-                        case "btnCcleaner":
-
-                            String ccleanerPath = @"C:\Program Files\CCleaner\uninst.exe";
-                            if (!File.Exists(ccleanerPath))
-                            {
-                                ccleanerPath = @"C:\Program Files (x86)\CCleaner\uninst.exe";
-                                if (!File.Exists(ccleanerPath)) continue;
-                            }
-
-                            Process.Start(ccleanerPath).WaitForExit();
-                            Utils.AddUpdateAppSettings(key, "false");
-                            continue;
-
-                        case "btnRevo":
-                            String revoPath = @"C:\Program Files\VS Revo Group\Revo Uninstaller Pro\unins000.exe";
-                            if (!File.Exists(revoPath))
-                            {
-                                Utils.AddUpdateAppSettings(key, "false");
-                                continue;
-                            }
-
-                            Process.Start(revoPath).WaitForExit();
-                            Utils.AddUpdateAppSettings(key, "false");
-                            continue;
-
-                        default: break;
-                    }
+                    timesNotFound++;
                 }
+            }
+
+            if (timesNotFound == 7)
+            {
+                MessageBox.Show("No malware scanners or cleanup tools were found.", "There's nothing here!", MessageBoxButton.OK);
             }
         }
     }
