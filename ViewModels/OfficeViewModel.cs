@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace FixEverything.ViewModels
 {
-    internal class OfficeViewModel : AllViewModels
+    internal class OfficeViewModel : ParentViewModel
     {
         public OfficeViewModel()
         {

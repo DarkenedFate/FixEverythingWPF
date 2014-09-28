@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace FixEverything.ViewModels
 {
-    internal class FixitsViewModel : AllViewModels
+    internal class FixitsViewModel : ParentViewModel
     {
 
         public FixitsViewModel()

@@ -56,6 +56,12 @@ namespace FixEverything.Commands
                 case "btnAmd":
                     viewModel.AmdCompatChecker();
                     break;
+                case "btnUninstallScanners":
+                    viewModel.UninstallScanners();
+                    break;
+                case "btnBlueScreenView":
+                    viewModel.BlueScreenView();
+                    break;
                 default:
                     break;
             }

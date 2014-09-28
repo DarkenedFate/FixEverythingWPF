@@ -11,6 +11,7 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Diagnostics;
 using System.Threading;
 using WindowsInput;
+using System.Collections;
 
 namespace FixEverything
 {
@@ -52,7 +53,7 @@ namespace FixEverything
             }
         }
 
-        internal static void copyResource(string resourceName, string file)
+        internal static void CopyResource(string resourceName, string file)
         {
             using (Stream resource = Assembly.GetExecutingAssembly()
                                               .GetManifestResourceStream(resourceName))
@@ -68,22 +69,25 @@ namespace FixEverything
             }
         }
 
-        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        public static List<T> GetLogicalChildCollection<T>(object parent) where T : DependencyObject
         {
-            if (depObj != null)
+            List<T> logicalCollection = new List<T>();
+            GetLogicalChildCollection(parent as DependencyObject, logicalCollection);
+            return logicalCollection;
+        }
+        private static void GetLogicalChildCollection<T>(DependencyObject parent, List<T> logicalCollection) where T : DependencyObject
+        {
+            IEnumerable children = LogicalTreeHelper.GetChildren(parent);
+            foreach (object child in children)
             {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                if (child is DependencyObject)
                 {
-                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-                    if (child != null && child is T)
+                    DependencyObject depChild = child as DependencyObject;
+                    if (child is T)
                     {
-                        yield return (T)child;
+                        logicalCollection.Add(child as T);
                     }
-
-                    foreach (T childOfChild in FindVisualChildren<T>(child))
-                    {
-                        yield return childOfChild;
-                    }
+                    GetLogicalChildCollection(depChild, logicalCollection);
                 }
             }
         }
@@ -96,7 +100,7 @@ namespace FixEverything
         internal static void runProgramFromResource(String resourceLocation, String fileName)
         {
             string path = Path.GetTempPath() + fileName;
-            copyResource(resourceLocation, path);
+            CopyResource(resourceLocation, path);
             Process.Start(path);
         }
 

@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace FixEverything.ViewModels
 {
-    internal class AntivirusViewModel : AllViewModels
+    internal class AntivirusViewModel : ParentViewModel
     {
         public AntivirusViewModel()
         {
@@ -35,7 +35,7 @@ namespace FixEverything.ViewModels
 
         public void TrendMicroDownloader()
         {
-            Utils.downloadProgram("http://191.238.32.68/download.php?file=TrendMicroDownloader.exe", "Trend Micro");
+            Utils.downloadProgram("http://files.trendmicro.com/products/Titanium/TTi_7.0_EL_64bit.exe", "Trend Micro");
         }
 
         public void RemoveTrendMicro()

@@ -1,6 +1,7 @@
 ﻿using FixEverything.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
@@ -19,13 +20,11 @@ namespace FixEverything
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const int CURRENT_VERSION = 18;
-
         public MainWindow()
         {
             InitializeComponent();
             checkProxy();
-            DataContext = new AllViewModels()
+            DataContext = new ParentViewModel()
             {
                 Fixits = new FixitsViewModel(),
                 MalwareRemoval = new MalwareRemovalViewModel(),
@@ -37,31 +36,7 @@ namespace FixEverything
             };
 
             // Set all buttons to have the same button handler
-            foreach (Button btn in Utils.FindVisualChildren<Button>(gridFixIts))
-            {
-                btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(setButtonForegroundColor));
-            }
-            foreach (Button btn in Utils.FindVisualChildren<Button>(gridMalware))
-            {
-                btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(setButtonForegroundColor));
-            }
-            foreach (Button btn in Utils.FindVisualChildren<Button>(gridOffice))
-            {
-                btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(setButtonForegroundColor));
-            }
-            foreach (Button btn in Utils.FindVisualChildren<Button>(gridPrinters))
-            {
-                btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(setButtonForegroundColor));
-            }
-            foreach (Button btn in Utils.FindVisualChildren<Button>(gridAntivirus))
-            {
-                btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(setButtonForegroundColor));
-            }
-            foreach (Button btn in Utils.FindVisualChildren<Button>(gridNinite))
-            {
-                btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(setButtonForegroundColor));
-            }
-            foreach (Button btn in Utils.FindVisualChildren<Button>(gridOther))
+            foreach (Button btn in Utils.GetLogicalChildCollection<Button>(tabControlMain))
             {
                 btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(setButtonForegroundColor));
             }
@@ -86,6 +61,10 @@ namespace FixEverything
                     pwForm.ShowDialog();
                     break;
 
+                case "CheckSettings":
+                    CheckSettings();
+                    break;
+
                 default:
                     char[] delimiterChars = { '\t' };
                     string[] details = message.Notification.Split(delimiterChars);
@@ -94,41 +73,6 @@ namespace FixEverything
                     dlForm.Owner = this;
                     dlForm.ShowDialog();
                     break;
-            }
-
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!File.Exists("FixEverything.exe.config"))
-            {
-                Utils.createConfig();
-            }
-
-            checkSettings();
-
-            // Check for updated version
-            WebClient client = new WebClient();
-            Stream stream = client.OpenRead("http://callme.cloudapp.net/version.txt");
-            StreamReader reader = new StreamReader(stream);
-            string version = reader.ReadToEnd();
-            int serverVersion = Convert.ToInt16(version);
-            if (CURRENT_VERSION < serverVersion)
-            {
-                try
-                {
-                    MessageBoxResult result = MessageBox.Show("New version of Fix Everything is available. Download now?", "New version available", MessageBoxButton.YesNo);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        DownloadForm dlForm = new DownloadForm("http://callme.cloudapp.net/download.php?file=updater.exe", "update");
-                        dlForm.Owner = this;
-                        dlForm.ShowDialog();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error!", "Error checking for updates, check your internet connection\nException type: " + ex.GetType().ToString(), MessageBoxButton.OK);
-                }
             }
         }
 
@@ -146,62 +90,13 @@ namespace FixEverything
             }
         }
 
-        private void checkSettings()
+        private void CheckSettings()
         {
             var appSettings = ConfigurationManager.AppSettings;
 
             if (appSettings.Count != 0)
             {
-                foreach (Button btn in Utils.FindVisualChildren<Button>(gridFixIts))
-                {
-                    if (appSettings[btn.Name.ToString()] == "true")
-                    {
-                        btn.Foreground = Brushes.LightGreen;
-                        btn.BorderBrush = Brushes.LightGreen;
-                    }
-                }
-
-                foreach (Button btn in Utils.FindVisualChildren<Button>(gridMalware))
-                {
-                    if (appSettings[btn.Name.ToString()] == "true")
-                    {
-                        btn.Foreground = Brushes.LightGreen;
-                        btn.BorderBrush = Brushes.LightGreen;
-                    }
-                }
-                foreach (Button btn in Utils.FindVisualChildren<Button>(gridOffice))
-                {
-                    if (appSettings[btn.Name.ToString()] == "true")
-                    {
-                        btn.Foreground = Brushes.LightGreen;
-                        btn.BorderBrush = Brushes.LightGreen;
-                    }
-                }
-                foreach (Button btn in Utils.FindVisualChildren<Button>(gridPrinters))
-                {
-                    if (appSettings[btn.Name.ToString()] == "true")
-                    {
-                        btn.Foreground = Brushes.LightGreen;
-                        btn.BorderBrush = Brushes.LightGreen;
-                    }
-                }
-                foreach (Button btn in Utils.FindVisualChildren<Button>(gridAntivirus))
-                {
-                    if (appSettings[btn.Name.ToString()] == "true")
-                    {
-                        btn.Foreground = Brushes.LightGreen;
-                        btn.BorderBrush = Brushes.LightGreen;
-                    }
-                }
-                foreach (Button btn in Utils.FindVisualChildren<Button>(gridNinite))
-                {
-                    if (appSettings[btn.Name.ToString()] == "true")
-                    {
-                        btn.Foreground = Brushes.LightGreen;
-                        btn.BorderBrush = Brushes.LightGreen;
-                    }
-                }
-                foreach (Button btn in Utils.FindVisualChildren<Button>(gridOther))
+                foreach (Button btn in Utils.GetLogicalChildCollection<Button>(tabControlMain))
                 {
                     if (appSettings[btn.Name.ToString()] == "true")
                     {

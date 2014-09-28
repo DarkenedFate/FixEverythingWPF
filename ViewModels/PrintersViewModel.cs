@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace FixEverything.ViewModels
 {
-    internal class PrintersViewModel : AllViewModels
+    internal class PrintersViewModel : ParentViewModel
     {
         public PrintersViewModel()
         {

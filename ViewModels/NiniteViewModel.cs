@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace FixEverything.ViewModels
 {
-    internal class NiniteViewModel : AllViewModels
+    internal class NiniteViewModel : ParentViewModel
     {
         public NiniteViewModel()
         {
