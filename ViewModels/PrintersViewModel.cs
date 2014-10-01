@@ -36,16 +36,19 @@ namespace FixEverything.ViewModels
         public void HpPrinterInstaller()
         {
             Utils.downloadProgram("http://ftp.hp.com/pub/softlib/software12/COL50403/mp-122330-1/hppiw.exe", "HP Printer Install Wizard");
+            Utils.UpdateDbClickCount("HP Printer Install Wizard");
         }
 
         public void HpPrintScanDoc()
         {
             Utils.downloadProgram("http://ftp.hp.com/pub/softlib/software12/COL50849/mp-135113-1/HPPSdr.exe", "HP Print and Scan Doctor");
+            Utils.UpdateDbClickCount("HP Print and Scan Doctor");
         }
 
         public void KodakPrinterInstaller()
         {
             Utils.downloadProgram("http://download.kodak.com/digital/software/inkjet/v7_8/Bits/webdownload/aio_install.exe", "Kodak Printer Installer");
+            Utils.UpdateDbClickCount("Kodak Printer Installer");
         }
     }
 }

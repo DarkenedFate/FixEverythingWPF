@@ -1,6 +1,7 @@
 ﻿using FixEverything.Commands;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -37,31 +38,37 @@ namespace FixEverything.ViewModels
         public void Office2013Direct() 
         {
             Utils.downloadProgram("http://officecdn.microsoft.com/pr/39168D7E-077B-48E7-872C-B232C3E72675/media/en-US/HomeStudentRetail.img", "Office 2013");
+            Utils.UpdateDbClickCount("Office 2013 Direct");
         }
 
         public void Office2010Direct()
         {
             Utils.downloadProgram("https://drcdn.blob.core.windows.net/office2010/X17-75058.exe", "Office 2010");
+            Utils.UpdateDbClickCount("Office 2010 Direct");
         }
 
         public void Office2013Website()
         {
             Process.Start("https://downloadoffice.getmicrosoftkey.com/");
+            Utils.UpdateDbClickCount("Office_2013_Website");
         }
 
         public void Office2010Website()
         {
             Process.Start("https://www2.downloadoffice2010.microsoft.com/usa/registerkey.aspx?culture=EN-US&ref=backup&country_id=US");
+            Utils.UpdateDbClickCount("Office_2010_Website");
         }
 
         public void RemoveOffice2013()
         {
-            Utils.downloadProgram("http://go.microsoft.com/?linkid=9815935", "Office 2013 Removal Tool");
+            Utils.downloadProgram("http://191.238.32.68/download.php?file=http://go.microsoft.com/?linkid=9815935", "Office 2013 Removal Tool");
+            Utils.UpdateDbClickCount("Office 2013 Removal Tool");
         }
 
         public void RemoveOffice2010()
         {
             Utils.downloadProgram("http://191.238.32.68/download.php?file=Office_2010_Remove.msi", "Office 2010 Removal Tool");
+            Utils.UpdateDbClickCount("Office 2010 Removal Tool");
         }
     }
 }

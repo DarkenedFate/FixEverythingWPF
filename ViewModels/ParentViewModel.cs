@@ -1,11 +1,14 @@
 ﻿using FixEverything.Commands;
 using GalaSoft.MvvmLight.Messaging;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,7 +26,7 @@ namespace FixEverything.ViewModels
         public NiniteViewModel Ninite { get; set; }
         public OtherViewModel Other { get; set; }
 
-        private const int CURRENT_VERSION = 21;
+        private const int CURRENT_VERSION = 22;
 
         public ParentViewModel()
         {
@@ -40,7 +43,13 @@ namespace FixEverything.ViewModels
         {
             if (!File.Exists("FixEverything.exe.config"))
             {
-                Utils.createConfig();
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+                sb.AppendLine("<configuration>");
+                sb.AppendLine("</configuration>");
+
+                string loc = Assembly.GetEntryAssembly().Location;
+                System.IO.File.WriteAllText(String.Concat(loc, ".config"), sb.ToString());
             }
 
             Messenger.Default.Send(new NotificationMessage("CheckSettings"));

@@ -116,29 +116,24 @@ namespace FixEverything.ViewModels
                     switch (programName)
                     {
                         case "Malwarebytes":
-                            Process mbam;
-                            mbam = Process.Start(Path.GetTempPath() + programName + ".exe", "/silent");
-                            while (!mbam.HasExited)
-                            {
-                                Messenger.Default.Send(new DownloadProgressMessage("Installing..."));
-                            }
+                            Messenger.Default.Send(new DownloadProgressMessage("Installing..."));
+                            Process.Start(Path.GetTempPath() + programName + ".exe", "/silent")
+                                .WaitForExit();
                             Process.Start("C:\\Program Files (x86)\\Malwarebytes Anti-Malware\\mbam.exe");
+
                             break;
 
                         case "Malwarebytes 1.75":
-                            Process p;
-                            p = Process.Start(Path.GetTempPath() + programName + ".exe", "/silent");
-                            while (!p.HasExited)
-                            {
-                                Messenger.Default.Send(new DownloadProgressMessage("Installing..."));
-                            }
-                            p = Process.Start("C:\\Program Files (x86)\\Malwarebytes' Anti-Malware\\mbam.exe", "/update");
-                            while (!p.HasExited)
-                            {
-                                Messenger.Default.Send(new DownloadProgressMessage("Updating..."));
-                            }
+                            Messenger.Default.Send(new DownloadProgressMessage("Installing..."));
+                            Process.Start(Path.GetTempPath() + programName + ".exe", "/silent")
+                                .WaitForExit();
+
+                            Messenger.Default.Send(new DownloadProgressMessage("Updating..."));
+                            Process.Start("C:\\Program Files (x86)\\Malwarebytes' Anti-Malware\\mbam.exe", "/update")
+                                .WaitForExit();
+
                             Messenger.Default.Send(new DownloadProgressMessage("Starting quick scan..."));
-                            p = Process.Start("C:\\Program Files (x86)\\Malwarebytes' Anti-Malware\\mbam.exe", "/quickscan");
+                            Process.Start("C:\\Program Files (x86)\\Malwarebytes' Anti-Malware\\mbam.exe", "/quickscan");
                             break;
 
                         case "Sentinel Driver Removal":
@@ -178,12 +173,9 @@ namespace FixEverything.ViewModels
                             break;
 
                         case "CCleaner":
-                            Process cCleaner = Process.Start(Path.GetTempPath() + programName + ".exe", "/S");
-
-                            while (!cCleaner.HasExited)
-                            {
-                                Messenger.Default.Send(new DownloadProgressMessage("Installing..."));
-                            }
+                            Messenger.Default.Send(new DownloadProgressMessage("Installing..."));
+                            Process.Start(Path.GetTempPath() + programName + ".exe", "/S")
+                                .WaitForExit();
 
                             string cCleaner64Dir = @"C:\Program Files\CCleaner\CCleaner.exe";
                             if (File.Exists(cCleaner64Dir))

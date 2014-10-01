@@ -1,34 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using System.Configuration;
+﻿using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Win32;
-using System.IO;
-using System.Windows;
-using System.Windows.Media;
-using GalaSoft.MvvmLight.Messaging;
-using System.Diagnostics;
-using System.Threading;
-using WindowsInput;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Threading;
+using System.Windows;
+using WindowsInput;
 
 namespace FixEverything
 {
     class Utils
-    { 
+    {
         internal const string RESOURCE_DIR = "FixEverything.Resources.";
-
-        internal static void createConfig()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-            sb.AppendLine("<configuration>");
-            sb.AppendLine("</configuration>");
-
-            string loc = Assembly.GetEntryAssembly().Location;
-            System.IO.File.WriteAllText(String.Concat(loc, ".config"), sb.ToString());
-        }
+        private static MySqlConnection conn = new MySqlConnection("Server=191.238.32.68;Database=my_wiki;Uid=JT;Pwd=Mohnjiles1!;");
 
         internal static void AddUpdateAppSettings(string key, string value)
         {
@@ -130,5 +120,63 @@ namespace FixEverything
             InputSimulator.SimulateKeyDown(VirtualKeyCode.ESCAPE);
         }
 
+        internal static void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            String fileName = e.Argument as String;
+
+            MySqlDataReader reader;
+            MySqlCommand cmd = new MySqlCommand();
+
+            String countQuery = String.Format("SELECT COUNT(*) AS countfile FROM download WHERE filename='{0}'", fileName);
+            String insertOrUpdateQuery = "";
+
+            cmd.CommandText = countQuery;
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Connection = conn;
+
+            conn.OpenAsync();
+
+            reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    if (reader.GetInt32(0) > 0)
+                    {
+                        insertOrUpdateQuery = String.Format("UPDATE download SET stats = stats + 1 WHERE filename='{0}'", fileName);
+                    }
+                    else
+                    {
+                        insertOrUpdateQuery = String.Format("INSERT INTO download (filename, stats) VALUES('{0}', 1)", fileName);
+                    }
+                }
+            }
+
+            reader.Close();
+
+            cmd.CommandText = insertOrUpdateQuery;
+            cmd.ExecuteNonQueryAsync();
+
+        }
+
+        internal static void UpdateDbClickCount(String fileName)
+        {
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            if (!bw.IsBusy)
+            {
+                bw.RunWorkerAsync(fileName);
+            }
+            else
+            {
+                BackgroundWorker bw2 = new BackgroundWorker();
+                bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+                if (!bw2.IsBusy)
+                {
+                    bw2.RunWorkerAsync(fileName);
+                }
+            }
+        }
     }
 }

@@ -46,36 +46,44 @@ namespace FixEverything.ViewModels
             Utils.CopyResource(Utils.RESOURCE_DIR + "fix_ie.bat", batPath);
 
             Process.Start(batPath);
+
+            Utils.UpdateDbClickCount("Reset IE");
         }
 
         public void ResetChrome()
         {
             Utils.runProgramFromResource(Utils.RESOURCE_DIR + "fix_chrome.bat", "fix_chrome.bat");
+            Utils.UpdateDbClickCount("Reset Chrome");
         }
 
         public void ResetFirefox()
         {
             Utils.runProgramFromResource(Utils.RESOURCE_DIR + "fix_firefox.bat", "fix_firefox.bat");
+            Utils.UpdateDbClickCount("Reset Firefox");
         }
 
         public void RefreshReset()
         {
             Messenger.Default.Send(new NotificationMessage("RefreshReset"));
+            Utils.UpdateDbClickCount("Refresh / Reset");
         }
 
         public void Autoruns()
         {
             Utils.runProgramFromResource(Utils.RESOURCE_DIR + "autoruns.exe", "autoruns.exe");
+            Utils.UpdateDbClickCount("Autoruns");
         }
 
         public void AmdCompatChecker()
         {
             Utils.downloadProgram("http://www2.ati.com/drivers/auto/amddriverdownloader.exe", "AMD Compatibility Checker");
+            Utils.UpdateDbClickCount("AMD Compatibility Checker");
         }
 
         public void BlueScreenView()
         {
             Utils.downloadProgram("http://www.nirsoft.net/utils/bluescreenview.zip", "BlueScreenView");
+            Utils.UpdateDbClickCount("BlueScreenView");
         }
 
         public void UninstallScanners()
@@ -114,6 +122,8 @@ namespace FixEverything.ViewModels
             {
                 MessageBox.Show("No malware scanners or cleanup tools were found.", "There's nothing here!", MessageBoxButton.OK);
             }
+
+            Utils.UpdateDbClickCount("Uninstall Scanners");
         }
     }
 }

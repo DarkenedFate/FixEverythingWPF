@@ -41,11 +41,11 @@ namespace FixEverything
                 btn.AddHandler(Button.ClickEvent, new RoutedEventHandler(setButtonForegroundColor));
             }
 
-            Messenger.Default.Register<NotificationMessage>(this, ProcessDialogMessage);
+            Messenger.Default.Register<NotificationMessage>(this, ProcessMessage);
         }
 
         // Process incoming messages from ViewModels
-        private void ProcessDialogMessage(NotificationMessage message)
+        private void ProcessMessage(NotificationMessage message)
         {
             switch (message.Notification)
             {
@@ -138,5 +138,6 @@ namespace FixEverything
         }
 
         #endregion
+
     }
 }

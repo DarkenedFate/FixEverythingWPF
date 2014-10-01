@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:intr="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:FixEverything.ViewModels"
-        Title="Fix Everything 2.3" Height="679" Width="862"
+        Title="Fix Everything 2.4" Height="679" Width="862"
         MaxHeight="1050" MaxWidth="1680" KeyUp="Window_KeyUp" Name="windowMain">
     <intr:Interaction.Triggers>
         <intr:EventTrigger EventName="Loaded">
@@ -257,7 +257,7 @@
             </TabItem>
 
         </TabControl>
-        <TextBlock HorizontalAlignment="Left" Height="46" Margin="0,15,0,0" TextWrapping="Wrap" Text="Fix Everything 2.3" VerticalAlignment="Top" Width="854" Foreground="White" FontSize="32" TextAlignment="Center"/>
+        <TextBlock HorizontalAlignment="Left" Height="46" Margin="0,15,0,0" TextWrapping="Wrap" Text="Fix Everything 2.4" VerticalAlignment="Top" Width="854" Foreground="White" FontSize="32" TextAlignment="Center"/>
 
     </Grid>
 </Window>

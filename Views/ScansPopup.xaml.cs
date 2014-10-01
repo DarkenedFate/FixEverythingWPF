@@ -38,9 +38,8 @@ namespace FixEverything
         }
 
         private void btnDism_Click(object sender, EventArgs e)
-        {
-            
-            string dismCommands = @"/c Dism /online /cleanup-image /scanhealth" +
+        { 
+            const string dismCommands = @"/c Dism /online /cleanup-image /scanhealth" +
                 @"&Dism /online /cleanup-image /startcomponentcleanup" +
                 @"&Dism /online /cleanup-image /restorehealth&pause";
             Process.Start(@"cmd.exe", dismCommands);

@@ -36,27 +36,32 @@ namespace FixEverything.ViewModels
         public void TrendMicroDownloader()
         {
             Utils.downloadProgram("http://files.trendmicro.com/products/Titanium/TTi_7.0_EL_64bit.exe", "Trend Micro");
+            Utils.UpdateDbClickCount("Trend Micro Downloader");
         }
 
         public void RemoveTrendMicro()
         {
             Utils.downloadProgram("http://solutionfile.trendmicro.com/solutionfile/Titanium-2014/" +
                     "Ti_70_win_global_en_Uninstall_hfb0001.exe", "Trend Micro Removal Tool");
+            Utils.UpdateDbClickCount("Trend Micro Removal Tool");
         }
 
         public void McAfeeDownloader()
         {
-            Utils.downloadProgram("http://191.238.32.68/download.php?file=MCAfeesetup.exe", "McAfee");
+            Utils.downloadProgram("http://191.238.32.68/MCAfeesetup.exe", "McAfee");
+            Utils.UpdateDbClickCount("McAfee Downloader");
         }
 
         public void RemoveMcAfee()
         {
             Utils.downloadProgram("http://download.mcafee.com/products/licensed/cust_support_patches/MCPR.exe", "McAfee Removal Tool");
+            Utils.UpdateDbClickCount("McAfee Removal Tool");
         }
 
         public void RemoveNorton()
         {
             Utils.downloadProgram("ftp://ftp.symantec.com/public/english_us_canada/removal_tools/Norton_Removal_Tool.exe", "Norton Removal Tool");
+            Utils.UpdateDbClickCount("Norton Removal Tool");
         }
     }
 }

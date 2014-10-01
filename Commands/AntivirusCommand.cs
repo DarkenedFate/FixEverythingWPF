@@ -10,6 +10,7 @@ namespace FixEverything.Commands
 {
     class AntivirusCommand : ICommand
     {
+
         public AntivirusCommand(AntivirusViewModel viewModel)
         {
             this.viewModel = viewModel;
